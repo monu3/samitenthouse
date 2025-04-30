@@ -29,17 +29,17 @@ export default function HomePage() {
 
   const heroSlides = [
     {
-      image: "src/assets/eventlogo.png",
+      image: "src/assets/eventlogo.png?height=1080&width=1920",
       title: "Creating Unforgettable Events",
       subtitle: "From concept to execution, we bring your vision to life",
     },
     {
-      image: "src/assets/useme.jpeg",
+      image: "src/assets/useme.jpeg?height=1080&width=1920",
       title: "Weddings & Celebrations",
       subtitle: "Making your special day truly magical",
     },
     {
-      image: "src/assets/useme.jpeg",
+      image: "src/assets/useme.jpeg?height=1080&width=1920",
       title: "School Events",
       subtitle: "Professional planning for successful business gatherings",
     },
@@ -96,7 +96,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-screen">
+      <section className="relative h-screen w-full overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           {heroSlides.map((slide, index) => (
             <div
@@ -117,8 +117,11 @@ export default function HomePage() {
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-up">
+          <div className="max-w-4xl">
+            <h1
+              className="text-5xl md:text-7xl font-bold text-white mb-4 animate-fade-up"
+              style={{ fontFamily: "cursive" }}
+            >
               {heroSlides[currentSlide].title}
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 animate-fade-up animation-delay-200">
@@ -324,10 +327,7 @@ export default function HomePage() {
                 about decorations, it's all our responsibility
               </p>
               <div className="pt-4">
-                <Button
-                  size="lg"
-                  asChild
-                >
+                <Button size="lg" asChild>
                   <Link to="/booking">Book Your Event</Link>
                 </Button>
               </div>

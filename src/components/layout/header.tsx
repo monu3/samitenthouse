@@ -53,7 +53,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full",
         isScrolled ? "bg-background/95 backdrop-blur-sm shadow-md py-2" : "bg-transparent py-4",
       )}
     >
@@ -64,14 +64,14 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               className={cn(
                 "text-sm font-medium transition-colors hover:text-primary",
-                location.pathname === item.path ? "text-primary" : "text-foreground/80",
+                location.pathname === item.path ? "text-primary" :  isScrolled ? "text-foreground/80" : "text-white",
               )}
             >
               {item.name}
@@ -94,7 +94,7 @@ export default function Header() {
               <span className="sr-only">Search</span>
             </Button>
           </form>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="ml-2">
+          <Button variant="ghost" size="icon" onClick={toggleTheme} className="text-white">
             {theme === "dark" ? "🌙" : "☀️"}
             <span className="sr-only">Toggle theme</span>
           </Button>
