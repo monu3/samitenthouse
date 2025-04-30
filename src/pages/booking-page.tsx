@@ -1,24 +1,41 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "../components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
-import { Textarea } from "../components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
-import { Calendar } from "../components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover"
-import { format } from "date-fns"
-import { CalendarIcon, CheckCircle } from "lucide-react"
-import { cn } from "../lib/utils"
-import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group"
+import { useState } from "react";
+import { Button } from "../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { Calendar } from "../components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon, CheckCircle } from "lucide-react";
+import { cn } from "../lib/utils";
+import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 
 export default function BookingPage() {
-  const [step, setStep] = useState(1)
-  const [date, setDate] = useState<Date>()
+  const [step, setStep] = useState(1);
+  const [date, setDate] = useState<Date>();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,48 +47,53 @@ export default function BookingPage() {
     budget: "",
     additionalInfo: "",
     packageType: "",
-  })
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleDateChange = (selectedDate: Date | undefined) => {
-    setDate(selectedDate)
+    setDate(selectedDate);
     if (selectedDate) {
-      setFormData((prev) => ({ ...prev, eventDate: format(selectedDate, "PPP") }))
+      setFormData((prev) => ({
+        ...prev,
+        eventDate: format(selectedDate, "PPP"),
+      }));
     }
-  }
+  };
 
   const nextStep = () => {
-    setStep((prev) => prev + 1)
-    window.scrollTo(0, 0)
-  }
+    setStep((prev) => prev + 1);
+    window.scrollTo(0, 0);
+  };
 
   const prevStep = () => {
-    setStep((prev) => prev - 1)
-    window.scrollTo(0, 0)
-  }
+    setStep((prev) => prev - 1);
+    window.scrollTo(0, 0);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Here you would typically send the form data to your backend
-    console.log("Form submitted:", formData)
-    nextStep()
-  }
+    console.log("Form submitted:", formData);
+    nextStep();
+  };
 
   return (
-    <div className="pt-16">
+    <div>
       {/* Hero Section */}
-      <section className="relative h-[30vh] min-h-[250px]">
+      <section className="relative h-[40vh] min-h-[400px]">
         <div className="absolute inset-0">
           <img
-            src="/placeholder.svg?height=400&width=1200"
+            src="src/assets/heroimage.png"
             alt="Book Your Event"
             className="w-full h-full object-cover"
           />
@@ -80,8 +102,16 @@ export default function BookingPage() {
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Book Your Event</h1>
-            <p className="text-xl text-white/90">Fill out the form below to start planning your perfect event</p>
+            <h1
+              className="text-4xl md:text-5xl font-bold text-white mb-4"
+              style={{ fontFamily: "cursive" }}
+            >
+              Book Your Event
+            </h1>
+            <p className="text-xl text-white/90"
+            style={{ fontFamily: "cursive" }}>
+              Fill out the form below to start planning your perfect event
+            </p>
           </div>
         </div>
       </section>
@@ -101,11 +131,15 @@ export default function BookingPage() {
                       step === stepNumber
                         ? "bg-primary text-primary-foreground"
                         : step > stepNumber
-                          ? "bg-primary/80 text-primary-foreground"
-                          : "bg-muted text-muted-foreground",
+                        ? "bg-primary/80 text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
                     )}
                   >
-                    {step > stepNumber ? <CheckCircle className="h-5 w-5" /> : stepNumber}
+                    {step > stepNumber ? (
+                      <CheckCircle className="h-5 w-5" />
+                    ) : (
+                      stepNumber
+                    )}
                   </div>
                 ))}
               </div>
@@ -128,13 +162,17 @@ export default function BookingPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Event Details</CardTitle>
-                  <CardDescription>Tell us about the event you're planning</CardDescription>
+                  <CardDescription>
+                    Tell us about the event you're planning
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="eventType">Event Type</Label>
                     <Select
-                      onValueChange={(value) => handleSelectChange("eventType", value)}
+                      onValueChange={(value) =>
+                        handleSelectChange("eventType", value)
+                      }
                       value={formData.eventType}
                     >
                       <SelectTrigger>
@@ -142,7 +180,9 @@ export default function BookingPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="wedding">Wedding</SelectItem>
-                        <SelectItem value="corporate">Corporate Event</SelectItem>
+                        <SelectItem value="corporate">
+                          Corporate Event
+                        </SelectItem>
                         <SelectItem value="birthday">Birthday Party</SelectItem>
                         <SelectItem value="social">Social Gathering</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
@@ -156,7 +196,10 @@ export default function BookingPage() {
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
-                          className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !date && "text-muted-foreground"
+                          )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {date ? format(date, "PPP") : "Select a date"}
@@ -199,22 +242,33 @@ export default function BookingPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="budget">Budget Range</Label>
-                    <Select onValueChange={(value) => handleSelectChange("budget", value)} value={formData.budget}>
+                    <Select
+                      onValueChange={(value) =>
+                        handleSelectChange("budget", value)
+                      }
+                      value={formData.budget}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select budget range" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="under5k">Under $5,000</SelectItem>
                         <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
-                        <SelectItem value="10k-20k">$10,000 - $20,000</SelectItem>
-                        <SelectItem value="20k-50k">$20,000 - $50,000</SelectItem>
+                        <SelectItem value="10k-20k">
+                          $10,000 - $20,000
+                        </SelectItem>
+                        <SelectItem value="20k-50k">
+                          $20,000 - $50,000
+                        </SelectItem>
                         <SelectItem value="over50k">Over $50,000</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="additionalInfo">Additional Information</Label>
+                    <Label htmlFor="additionalInfo">
+                      Additional Information
+                    </Label>
                     <Textarea
                       id="additionalInfo"
                       name="additionalInfo"
@@ -236,59 +290,99 @@ export default function BookingPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Select a Package</CardTitle>
-                  <CardDescription>Choose the package that best fits your needs</CardDescription>
+                  <CardDescription>
+                    Choose the package that best fits your needs
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RadioGroup
                     value={formData.packageType}
-                    onValueChange={(value) => handleSelectChange("packageType", value)}
+                    onValueChange={(value) =>
+                      handleSelectChange("packageType", value)
+                    }
                     className="space-y-4"
                   >
                     <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer">
-                      <RadioGroupItem value="essential" id="essential" className="mt-1" />
+                      <RadioGroupItem
+                        value="essential"
+                        id="essential"
+                        className="mt-1"
+                      />
                       <div className="flex-1">
-                        <Label htmlFor="essential" className="text-lg font-medium cursor-pointer">
+                        <Label
+                          htmlFor="essential"
+                          className="text-lg font-medium cursor-pointer"
+                        >
                           Essential Package
                         </Label>
-                        <p className="text-muted-foreground">Basic planning assistance for smaller events</p>
+                        <p className="text-muted-foreground">
+                          Basic planning assistance for smaller events
+                        </p>
                         <p className="font-medium mt-2">Starting at $2,500</p>
                       </div>
                     </div>
 
                     <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer border-primary bg-primary/5">
-                      <RadioGroupItem value="premium" id="premium" className="mt-1" />
+                      <RadioGroupItem
+                        value="premium"
+                        id="premium"
+                        className="mt-1"
+                      />
                       <div className="flex-1">
                         <div className="flex justify-between">
-                          <Label htmlFor="premium" className="text-lg font-medium cursor-pointer">
+                          <Label
+                            htmlFor="premium"
+                            className="text-lg font-medium cursor-pointer"
+                          >
                             Premium Package
                           </Label>
                           <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full">
                             Most Popular
                           </span>
                         </div>
-                        <p className="text-muted-foreground">Comprehensive planning for medium-sized events</p>
+                        <p className="text-muted-foreground">
+                          Comprehensive planning for medium-sized events
+                        </p>
                         <p className="font-medium mt-2">Starting at $5,000</p>
                       </div>
                     </div>
 
                     <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer">
-                      <RadioGroupItem value="luxury" id="luxury" className="mt-1" />
+                      <RadioGroupItem
+                        value="luxury"
+                        id="luxury"
+                        className="mt-1"
+                      />
                       <div className="flex-1">
-                        <Label htmlFor="luxury" className="text-lg font-medium cursor-pointer">
+                        <Label
+                          htmlFor="luxury"
+                          className="text-lg font-medium cursor-pointer"
+                        >
                           Luxury Package
                         </Label>
-                        <p className="text-muted-foreground">All-inclusive planning for large or complex events</p>
+                        <p className="text-muted-foreground">
+                          All-inclusive planning for large or complex events
+                        </p>
                         <p className="font-medium mt-2">Starting at $8,500</p>
                       </div>
                     </div>
 
                     <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer">
-                      <RadioGroupItem value="custom" id="custom" className="mt-1" />
+                      <RadioGroupItem
+                        value="custom"
+                        id="custom"
+                        className="mt-1"
+                      />
                       <div className="flex-1">
-                        <Label htmlFor="custom" className="text-lg font-medium cursor-pointer">
+                        <Label
+                          htmlFor="custom"
+                          className="text-lg font-medium cursor-pointer"
+                        >
                           Custom Package
                         </Label>
-                        <p className="text-muted-foreground">Tailored to your specific needs and requirements</p>
+                        <p className="text-muted-foreground">
+                          Tailored to your specific needs and requirements
+                        </p>
                         <p className="font-medium mt-2">Price varies</p>
                       </div>
                     </div>
@@ -377,31 +471,39 @@ export default function BookingPage() {
             {step === 4 && (
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-center">Booking Submitted!</CardTitle>
+                  <CardTitle className="text-center">
+                    Booking Submitted!
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="flex justify-center mb-6">
                     <CheckCircle className="h-16 w-16 text-green-500" />
                   </div>
-                  <p className="text-lg mb-4">Thank you for your booking request, {formData.name}!</p>
+                  <p className="text-lg mb-4">
+                    Thank you for your booking request, {formData.name}!
+                  </p>
                   <p className="mb-6 text-muted-foreground">
-                    We've received your information and will contact you within 24 hours to discuss your event in more
-                    detail.
+                    We've received your information and will contact you within
+                    24 hours to discuss your event in more detail.
                   </p>
                   <div className="bg-muted p-4 rounded-md text-left mb-6">
                     <h3 className="font-medium mb-2">Booking Summary:</h3>
                     <ul className="space-y-1 text-sm">
                       <li>
-                        <span className="font-medium">Event Type:</span> {formData.eventType}
+                        <span className="font-medium">Event Type:</span>{" "}
+                        {formData.eventType}
                       </li>
                       <li>
-                        <span className="font-medium">Date:</span> {formData.eventDate}
+                        <span className="font-medium">Date:</span>{" "}
+                        {formData.eventDate}
                       </li>
                       <li>
-                        <span className="font-medium">Package:</span> {formData.packageType}
+                        <span className="font-medium">Package:</span>{" "}
+                        {formData.packageType}
                       </li>
                       <li>
-                        <span className="font-medium">Guests:</span> {formData.guestCount}
+                        <span className="font-medium">Guests:</span>{" "}
+                        {formData.guestCount}
                       </li>
                     </ul>
                   </div>
@@ -420,5 +522,5 @@ export default function BookingPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

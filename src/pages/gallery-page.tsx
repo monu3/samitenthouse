@@ -17,29 +17,29 @@ export default function GalleryPage() {
   const categories = [
     { id: "all", name: "All Events" },
     { id: "weddings", name: "Weddings" },
-    { id: "corporate", name: "Corporate" },
-    { id: "birthdays", name: "Birthdays" },
-    { id: "social", name: "Social Events" },
+    { id: "decoration", name: "Decoration" },
+    { id: "pasni", name: "Pasni" },
+    { id: "school", name: "School Events" },
   ];
 
   const galleryImages = [
     {
       id: 1,
-      src: "/placeholder.svg?height=600&width=800",
+      src: "src/assets/wedding.png?height=600&width=800",
       alt: "Wedding reception",
       category: "weddings",
     },
     {
       id: 2,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Corporate conference",
-      category: "corporate",
+      src: "src/assets/heroimage.png",
+      alt: "Decoration",
+      category: "decoration",
     },
     {
       id: 3,
       src: "/placeholder.svg?height=600&width=800",
-      alt: "Birthday celebration",
-      category: "birthdays",
+      alt: "Pasni celebration",
+      category: "pasni",
     },
     {
       id: 4,
@@ -49,15 +49,15 @@ export default function GalleryPage() {
     },
     {
       id: 5,
-      src: "/placeholder.svg?height=600&width=800",
+      src: "src/assets/aboutus.jpeg",
       alt: "Corporate team building",
-      category: "corporate",
+      category: "decoration",
     },
     {
       id: 6,
       src: "/placeholder.svg?height=600&width=800",
       alt: "Gala dinner",
-      category: "social",
+      category: "school",
     },
     {
       id: 7,
@@ -69,19 +69,19 @@ export default function GalleryPage() {
       id: 8,
       src: "/placeholder.svg?height=600&width=800",
       alt: "Product launch",
-      category: "corporate",
+      category: "decoration",
     },
     {
       id: 9,
       src: "/placeholder.svg?height=600&width=800",
-      alt: "Children's birthday",
-      category: "birthdays",
+      alt: "Children's Pasni",
+      category: "pasni",
     },
     {
       id: 10,
       src: "/placeholder.svg?height=600&width=800",
       alt: "Charity event",
-      category: "social",
+      category: "school",
     },
     {
       id: 11,
@@ -93,17 +93,17 @@ export default function GalleryPage() {
       id: 12,
       src: "/placeholder.svg?height=600&width=800",
       alt: "Corporate awards",
-      category: "corporate",
+      category: "decoration",
     },
   ];
 
   return (
-    <div className="pt-16">
+    <div>
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px]">
+      <section className="relative h-[40vh] min-h-[400px]">
         <div className="absolute inset-0">
           <img
-            src="/placeholder.svg?height=600&width=1200"
+            src="src/assets/heroimage.png"
             alt="Gallery"
             className="w-full h-full object-cover"
           />
@@ -112,10 +112,16 @@ export default function GalleryPage() {
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1
+              className="text-4xl md:text-5xl font-bold text-white mb-4"
+              style={{ fontFamily: "cursive" }}
+            >
               Our Event Gallery
             </h1>
-            <p className="text-xl text-white/90">
+            <p
+              className="text-xl text-white/90"
+              style={{ fontFamily: "cursive" }}
+            >
               Browse through our portfolio of successful events
             </p>
           </div>

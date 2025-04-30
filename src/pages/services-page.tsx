@@ -144,12 +144,12 @@ export default function ServicesPage() {
   ];
 
   return (
-    <div className="pt-16">
+    <div>
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[300px]">
+      <section className="relative h-[40vh] min-h-[400px]">
         <div className="absolute inset-0">
           <img
-            src="/placeholder.svg?height=600&width=1200"
+            src="src/assets/heroimage.png"
             alt="Our Services"
             className="w-full h-full object-cover"
           />
@@ -158,10 +158,12 @@ export default function ServicesPage() {
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4"
+            style={{ fontFamily: "cursive" }}>
               Our Services
             </h1>
-            <p className="text-xl text-white/90">
+            <p className="text-xl text-white/90"
+            style={{ fontFamily: "cursive" }}>
               Comprehensive event planning solutions for every occasion
             </p>
           </div>

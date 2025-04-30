@@ -38,7 +38,7 @@ export default function Header() {
     { name: "About", path: "/about" },
     { name: "Gallery", path: "/gallery" },
     { name: "Services", path: "/services" },
-    { name: "Packages", path: "/packages" },
+    // { name: "Packages", path: "/packages" },
     { name: "Book Now", path: "/booking" },
     { name: "Contact", path: "/contact" },
     { name: "Outlets", path: "/outlets" },

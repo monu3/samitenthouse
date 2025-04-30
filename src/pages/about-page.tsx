@@ -63,7 +63,7 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[45vh] min-h-[400px]">
+      <section className="relative h-[40vh] min-h-[400px]">
         <div className="absolute inset-0">
           <img
             src="src/assets/heroimage.png"
