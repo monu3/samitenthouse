@@ -29,17 +29,17 @@ export default function HomePage() {
 
   const heroSlides = [
     {
-      image: "src/assets/eventlogo.png?height=1080&width=1920",
+      image: "src/assets/images.png",
       title: "Creating Unforgettable Events",
       subtitle: "From concept to execution, we bring your vision to life",
     },
     {
-      image: "src/assets/useme.jpeg?height=1080&width=1920",
+      image: "src/assets/heroimage.png",
       title: "Weddings & Celebrations",
       subtitle: "Making your special day truly magical",
     },
     {
-      image: "src/assets/useme.jpeg?height=1080&width=1920",
+      image: "src/assets/wedding.png",
       title: "School Events",
       subtitle: "Professional planning for successful business gatherings",
     },

@@ -1,48 +1,51 @@
-import { Link } from "react-router-dom"
-import { Button } from "../components/ui/button"
-import { Card, CardContent } from "../components/ui/card"
-import { CheckCircle, Users, Target, Lightbulb, Star } from "lucide-react"
+import { Link } from "react-router-dom";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
+import { CheckCircle, Users, Target, Lightbulb, Star } from "lucide-react";
 
 export default function AboutPage() {
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Monu Siddhique",
       role: "Bride",
       content:
-        "EventMaster made our wedding day absolutely perfect. Every detail was handled with care and professionalism.",
+        "Sami Tent House made our wedding day absolutely perfect. Every detail was handled with care and professionalism.",
       rating: 5,
     },
     {
-      name: "Michael Chen",
-      role: "Marketing Director",
+      name: "Shyam kumar",
+      role: "Principle of surkhet horizon academy",
       content:
         "Our company conference was flawlessly executed. The team's attention to detail and responsiveness was impressive.",
       rating: 5,
     },
     {
-      name: "Emily Rodriguez",
+      name: "Sita K.C",
       role: "Birthday Celebrant",
       content:
         "My 30th birthday party exceeded all expectations. The theme, decorations, and coordination were spot on!",
       rating: 4,
     },
-  ]
+  ];
 
   const milestones = [
     {
       year: "2013",
       title: "Company Founded",
-      description: "EventMaster was established with a vision to create exceptional events.",
+      description:
+        "Sami Tent House was established with a vision to create exceptional events.",
     },
     {
       year: "2015",
       title: "Expanded Services",
-      description: "Added corporate event planning to our service offerings.",
+      description:
+        "Added corporate and School event planning to our service offerings.",
     },
     {
       year: "2018",
       title: "Award Recognition",
-      description: "Received 'Best Event Planning Company' award in the region.",
+      description:
+        "Received 'Best Event Planning Company' award in the region.",
     },
     {
       year: "2020",
@@ -52,23 +55,38 @@ export default function AboutPage() {
     {
       year: "2023",
       title: "International Expansion",
-      description: "Opened our first international office to serve global clients.",
+      description:
+        "Opened our first international office to serve global clients.",
     },
-  ]
+  ];
 
   return (
-    <div className="pt-16">
+    <div>
       {/* Hero Section */}
-      <section className="relative h-[50vh] min-h-[400px]">
+      <section className="relative h-[45vh] min-h-[400px]">
         <div className="absolute inset-0">
-          <img src="/placeholder.svg?height=600&width=1200" alt="About Us" className="w-full h-full object-cover" />
+          <img
+            src="src/assets/heroimage.png"
+            alt="About Us"
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-black/50" />
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">About EventMaster</h1>
-            <p className="text-xl text-white/90">Creating unforgettable experiences since 2013</p>
+            <h1
+              className="text-4xl md:text-5xl font-bold text-white mb-4"
+              style={{ fontFamily: "cursive" }}
+            >
+              About Sami Tent House
+            </h1>
+            <p
+              className="text-xl text-white/90"
+              style={{ fontFamily: "cursive" }}
+            >
+              Creating unforgettable experiences since 2013
+            </p>
           </div>
         </div>
       </section>
@@ -76,29 +94,34 @@ export default function AboutPage() {
       {/* Who We Are */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
-            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <img src="/placeholder.svg?height=600&width=800" alt="Our Team" className="rounded-lg shadow-lg" />
+              <img
+                src="src/assets/heroimage.png"
+                alt="Our Team"
+                className="rounded-lg shadow-lg"
+              />
             </div>
             <div className="space-y-6">
+              <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
+            <div className="w-20 h-1 bg-primary mx-auto mb-5"></div>
               <p className="text-lg">
-                EventMaster is a premier event planning company dedicated to creating exceptional experiences for our
-                clients. With over a decade of experience in the industry, we've built a reputation for excellence,
-                creativity, and attention to detail.
+                Sami Tent House is a premier event planning company dedicated to
+                creating exceptional experiences for our clients. With over a
+                decade of experience in the industry, we've built a reputation
+                for excellence, creativity, and attention to detail.
               </p>
               <p>
-                Our team of passionate event planners brings together diverse skills and expertise to transform your
-                vision into reality. We believe that every event tells a story, and we're committed to making yours
-                unforgettable.
+                Our team of passionate event planners brings together diverse
+                skills and expertise to transform your vision into reality. We
+                believe that every event tells a story, and we're committed to
+                making yours unforgettable.
               </p>
               <p>
-                From intimate gatherings to grand celebrations, corporate functions to weddings, we approach each event
-                with the same level of dedication and professionalism, ensuring that every detail is perfect.
+                From intimate gatherings to grand celebrations, corporate
+                functions to weddings, we approach each event with the same
+                level of dedication and professionalism, ensuring that every
+                detail is perfect.
               </p>
             </div>
           </div>
@@ -115,12 +138,13 @@ export default function AboutPage() {
                 <h2 className="text-3xl font-bold">Our Mission</h2>
               </div>
               <p className="text-lg mb-4">
-                To create exceptional events that exceed client expectations by combining creativity, precision, and
-                personalized service.
+                To create exceptional events that exceed client expectations by
+                combining creativity, precision, and personalized service.
               </p>
               <p>
-                We are committed to understanding our clients' unique visions and bringing them to life through
-                meticulous planning, innovative design, and flawless execution.
+                We are committed to understanding our clients' unique visions
+                and bringing them to life through meticulous planning,
+                innovative design, and flawless execution.
               </p>
             </div>
 
@@ -130,12 +154,14 @@ export default function AboutPage() {
                 <h2 className="text-3xl font-bold">Our Vision</h2>
               </div>
               <p className="text-lg mb-4">
-                To be the leading event planning company known for creating transformative experiences that leave
-                lasting impressions.
+                To be the leading event planning company known for creating
+                transformative experiences that leave lasting impressions.
               </p>
               <p>
-                We envision a world where every celebration becomes a cherished memory, every corporate event achieves
-                its objectives, and every client feels valued and understood throughout the planning process.
+                We envision a world where every celebration becomes a cherished
+                memory, every corporate event achieves its objectives, and every
+                client feels valued and understood throughout the planning
+                process.
               </p>
             </div>
           </div>
@@ -149,17 +175,20 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold mb-4">What We Do</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              We offer comprehensive event planning services tailored to meet your specific needs and preferences.
+              We offer comprehensive event planning services tailored to meet
+              your specific needs and preferences.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-muted p-6 rounded-lg">
               <CheckCircle className="h-10 w-10 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Event Conceptualization</h3>
+              <h3 className="text-xl font-bold mb-2">
+                Event Conceptualization
+              </h3>
               <p>
-                We work closely with you to develop a unique concept that reflects your vision, preferences, and
-                objectives.
+                We work closely with you to develop a unique concept that
+                reflects your vision, preferences, and objectives.
               </p>
             </div>
 
@@ -167,37 +196,46 @@ export default function AboutPage() {
               <CheckCircle className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-bold mb-2">Venue Selection</h3>
               <p>
-                We help you find the perfect venue that aligns with your event requirements, budget, and aesthetic
-                preferences.
+                We help you find the perfect venue that aligns with your event
+                requirements, budget, and aesthetic preferences.
               </p>
             </div>
 
             <div className="bg-muted p-6 rounded-lg">
               <CheckCircle className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-bold mb-2">Vendor Management</h3>
-              <p>We coordinate with trusted vendors to ensure all aspects of your event are handled professionally.</p>
+              <p>
+                We coordinate with trusted vendors to ensure all aspects of your
+                event are handled professionally.
+              </p>
             </div>
 
             <div className="bg-muted p-6 rounded-lg">
               <CheckCircle className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-bold mb-2">Design & Decor</h3>
               <p>
-                Our creative team designs stunning event spaces that create the perfect atmosphere for your occasion.
+                Our creative team designs stunning event spaces that create the
+                perfect atmosphere for your occasion.
               </p>
             </div>
 
             <div className="bg-muted p-6 rounded-lg">
               <CheckCircle className="h-10 w-10 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">Logistics & Coordination</h3>
-              <p>We handle all the logistical details to ensure your event runs smoothly from start to finish.</p>
+              <h3 className="text-xl font-bold mb-2">
+                Logistics & Coordination
+              </h3>
+              <p>
+                We handle all the logistical details to ensure your event runs
+                smoothly from start to finish.
+              </p>
             </div>
 
             <div className="bg-muted p-6 rounded-lg">
               <CheckCircle className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-bold mb-2">On-Site Management</h3>
               <p>
-                Our team provides professional on-site management to address any issues and ensure a flawless
-                experience.
+                Our team provides professional on-site management to address any
+                issues and ensure a flawless experience.
               </p>
             </div>
           </div>
@@ -217,7 +255,8 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold mb-4">Our Journey</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              A decade of creating exceptional events and unforgettable experiences.
+              A decade of creating exceptional events and unforgettable
+              experiences.
             </p>
           </div>
 
@@ -234,7 +273,9 @@ export default function AboutPage() {
 
                   {/* Content */}
                   <div
-                    className={`flex flex-col md:flex-row items-center ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}
+                    className={`flex flex-col md:flex-row items-center ${
+                      index % 2 === 0 ? "md:flex-row-reverse" : ""
+                    }`}
                   >
                     <div className="md:w-1/2 text-center md:text-right px-4 md:pr-12">
                       <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium mb-2">
@@ -260,8 +301,8 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold mb-4">Client Testimonials</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Don't just take our word for it. Here's what our clients have to say about their experience with
-              EventMaster.
+              Don't just take our word for it. Here's what our clients have to
+              say about their experience with EventMaster.
             </p>
           </div>
 
@@ -274,7 +315,9 @@ export default function AboutPage() {
                       <Star
                         key={i}
                         className={`h-5 w-5 ${
-                          i < testimonial.rating ? "text-yellow-500 fill-yellow-500" : "text-muted"
+                          i < testimonial.rating
+                            ? "text-yellow-500 fill-yellow-500"
+                            : "text-muted"
                         }`}
                       />
                     ))}
@@ -286,7 +329,9 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <p className="font-bold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {testimonial.role}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -305,10 +350,12 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Plan Your Next Event?</h2>
+          <h2 className="text-3xl font-bold mb-6">
+            Ready to Plan Your Next Event?
+          </h2>
           <p className="max-w-2xl mx-auto mb-8 text-primary-foreground/90">
-            Contact us today to discuss your ideas and let our team of experts help you create an unforgettable
-            experience.
+            Contact us today to discuss your ideas and let our team of experts
+            help you create an unforgettable experience.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button size="lg" variant="secondary" asChild>
@@ -326,5 +373,5 @@ export default function AboutPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
