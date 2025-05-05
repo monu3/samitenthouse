@@ -139,7 +139,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border mt-8 pt-6 text-center">
-          <p>&copy; {currentYear} Sami Tent House. All rights reserved.</p>
+          <p>&copy; {currentYear} Sami Tent House   | All rights reserved |  Created by Monu Siddiki</p>
         </div>
       </div>
     </footer>

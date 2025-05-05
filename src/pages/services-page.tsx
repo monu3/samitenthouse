@@ -8,25 +8,25 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
-import {
-  Calendar,
-  Users,
-  Gift,
-  Award,
-  Music,
-  Camera,
-  Utensils,
-  Palette,
-} from "lucide-react";
+// import {
+//   Calendar,
+//   Users,
+//   Gift,
+//   Award,
+//   Music,
+//   Camera,
+//   Utensils,
+//   Palette,
+// } from "lucide-react";
 
 export default function ServicesPage() {
   const services = [
     {
       id: "wedding",
-      icon: <Calendar className="h-10 w-10 text-primary" />,
       title: "Wedding Planning",
       description:
         "Comprehensive wedding planning services to make your special day perfect. From venue selection to coordination on the day, we handle every detail.",
+      image: "src/assets/heroimage.png?height=600&width=400",
       features: [
         "Venue selection and booking",
         "Vendor coordination",
@@ -38,10 +38,10 @@ export default function ServicesPage() {
     },
     {
       id: "corporate",
-      icon: <Users className="h-10 w-10 text-primary" />,
       title: "Corporate Events",
       description:
         "Professional corporate event management for conferences, team building activities, product launches, and more.",
+      image: "src/assets/heroimage.png?height=600&width=400",
       features: [
         "Conference planning",
         "Team building activities",
@@ -52,11 +52,11 @@ export default function ServicesPage() {
       ],
     },
     {
-      id: "birthday",
-      icon: <Gift className="h-10 w-10 text-primary" />,
-      title: "Birthday Parties",
+      id: "cooking",
+      title: "Cooking Services",
       description:
         "Creative birthday party planning for all ages with custom themes, entertainment, and memorable experiences.",
+      image: "src/assets/cooking.webp?height=600&width=400",
       features: [
         "Theme development",
         "Venue decoration",
@@ -67,11 +67,11 @@ export default function ServicesPage() {
       ],
     },
     {
-      id: "awards",
-      icon: <Award className="h-10 w-10 text-primary" />,
-      title: "Award Ceremonies",
+      id: "bratabandha",
+      title: "Bratabandha Ceremony",
       description:
         "Elegant award ceremonies that recognize achievements with style, from corporate recognition to industry galas.",
+      image: "src/assets/bartha.webp?height=600&width=400",
       features: [
         "Venue selection",
         "Stage design",
@@ -82,11 +82,11 @@ export default function ServicesPage() {
       ],
     },
     {
-      id: "entertainment",
-      icon: <Music className="h-10 w-10 text-primary" />,
-      title: "Entertainment Services",
+      id: "pasni",
+      title: "Pasni Ceremony",
       description:
         "Book top-tier entertainment for your event, from live bands and DJs to performers and speakers.",
+      image: "src/assets/heroimage.png?height=600&width=400",
       features: [
         "Live music booking",
         "DJ services",
@@ -97,11 +97,11 @@ export default function ServicesPage() {
       ],
     },
     {
-      id: "photography",
-      icon: <Camera className="h-10 w-10 text-primary" />,
-      title: "Photography & Videography",
+      id: "haldi and mehendi",
+      title: "Haldi & Mehendi ceremony",
       description:
         "Capture your event with professional photography and videography services that document every special moment.",
+      image: "src/assets/heroimage.png?height=600&width=400",
       features: [
         "Event photography",
         "Videography services",
@@ -113,10 +113,10 @@ export default function ServicesPage() {
     },
     {
       id: "catering",
-      icon: <Utensils className="h-10 w-10 text-primary" />,
       title: "Catering Services",
       description:
         "Delicious catering options for any event, with custom menus tailored to your preferences and dietary needs.",
+      image: "src/assets/catring.jpg?height=600&width=400",
       features: [
         "Custom menu creation",
         "Buffet service",
@@ -128,10 +128,10 @@ export default function ServicesPage() {
     },
     {
       id: "decor",
-      icon: <Palette className="h-10 w-10 text-primary" />,
       title: "Decor & Styling",
       description:
         "Transform your venue with stunning decor and styling that creates the perfect atmosphere for your event.",
+      image: "src/assets/image3.jpeg",
       features: [
         "Theme development",
         "Floral arrangements",
@@ -158,12 +158,16 @@ export default function ServicesPage() {
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: "cursive" }}>
+            <h1
+              className="text-4xl md:text-5xl font-bold text-white mb-4"
+              style={{ fontFamily: "cursive" }}
+            >
               Our Services
             </h1>
-            <p className="text-xl text-white/90"
-            style={{ fontFamily: "cursive" }}>
+            <p
+              className="text-xl text-white/90"
+              style={{ fontFamily: "cursive" }}
+            >
               Comprehensive event planning solutions for every occasion
             </p>
           </div>
@@ -171,16 +175,16 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Introduction */}
-      <section className="py-16 bg-background">
+      <section className="py-5 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">What We Offer</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              At EventMaster, we offer a comprehensive range of event planning
-              services tailored to meet your specific needs and preferences.
-              From intimate gatherings to grand celebrations, we handle every
-              detail with precision and care.
+              At Sami Tent House, we offer a comprehensive range of event
+              planning services tailored to meet your specific needs and
+              preferences. From intimate gatherings to grand celebrations, we
+              handle every detail with precision and care.
             </p>
           </div>
 
@@ -189,9 +193,9 @@ export default function ServicesPage() {
               <Card
                 key={service.id}
                 id={service.id}
-                className="group hover:shadow-lg transition-all duration-300"
+                className="group relative h-[500px] overflow-hidden border-0 rounded-lg shadow-md"
               >
-                <CardHeader className="text-center">
+                {/* <CardHeader className="text-center">
                   <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
                     {service.icon}
                   </div>
@@ -219,122 +223,51 @@ export default function ServicesPage() {
             ))}
           </div>
         </div>
+      </section> */}
+
+                {/* Background Image */}
+                <div
+                  className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${service.image})` }}
+                ></div>
+
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-colors duration-300"></div>
+
+                {/* Content */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-between text-white">
+                  {/* Title - Always visible */}
+                  <h3 className="text-2xl font-bold z-10">{service.title}</h3>
+
+                  {/* Description - Hidden by default, visible on hover */}
+                  <div className="transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    <ul className="space-y-1 mb-4">
+                      {service.features.slice(0, 4).map((feature, index) => (
+                        <li
+                          key={index}
+                          className="text-sm text-white/90 flex items-center"
+                        >
+                          <span className="mr-2 text-white">•</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button
+                      size="sm"
+                      className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
+                      asChild
+                    >
+                      <Link to={`/booking?service=${service.id}`}>
+                        Book This Service
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
       </section>
-
-      {/* Process Section */}
-      {/* <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Our Process</h2>
-            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="max-w-2xl mx-auto text-muted-foreground">
-              We follow a structured approach to ensure every event is planned
-              and executed to perfection.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="bg-background p-6 rounded-lg text-center relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                1
-              </div>
-              <h3 className="text-xl font-bold mt-4 mb-3">Consultation</h3>
-              <p className="text-muted-foreground">
-                We begin with a detailed consultation to understand your vision,
-                preferences, and requirements.
-              </p>
-            </div>
-
-            <div className="bg-background p-6 rounded-lg text-center relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                2
-              </div>
-              <h3 className="text-xl font-bold mt-4 mb-3">Planning</h3>
-              <p className="text-muted-foreground">
-                Our team develops a comprehensive plan, including budget,
-                timeline, and vendor coordination.
-              </p>
-            </div>
-
-            <div className="bg-background p-6 rounded-lg text-center relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                3
-              </div>
-              <h3 className="text-xl font-bold mt-4 mb-3">Execution</h3>
-              <p className="text-muted-foreground">
-                We handle all logistics and coordination on the day of the
-                event, ensuring everything runs smoothly.
-              </p>
-            </div>
-
-            <div className="bg-background p-6 rounded-lg text-center relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                4
-              </div>
-              <h3 className="text-xl font-bold mt-4 mb-3">Follow-up</h3>
-              <p className="text-muted-foreground">
-                After the event, we gather feedback and ensure all final details
-                are addressed to your satisfaction.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* Testimonials */}
-      {/* <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">What Our Clients Say</h2>
-            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="bg-muted">
-              <CardContent className="pt-6">
-                <p className="italic mb-4">
-                  "EventMaster handled our corporate conference with exceptional
-                  professionalism. The attention to detail and seamless
-                  execution impressed everyone in attendance."
-                </p>
-                <div className="font-bold">John Smith</div>
-                <div className="text-sm text-muted-foreground">
-                  Marketing Director, Tech Solutions Inc.
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-muted">
-              <CardContent className="pt-6">
-                <p className="italic mb-4">
-                  "Our wedding day was absolutely perfect thanks to the amazing
-                  team at EventMaster. They took care of every detail, allowing
-                  us to fully enjoy our special day."
-                </p>
-                <div className="font-bold">Sarah & Michael Johnson</div>
-                <div className="text-sm text-muted-foreground">
-                  Wedding Clients
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-muted">
-              <CardContent className="pt-6">
-                <p className="italic mb-4">
-                  "The birthday party EventMaster planned for my daughter was
-                  beyond our expectations. The theme, decorations, and
-                  entertainment were all perfect for the occasion."
-                </p>
-                <div className="font-bold">Lisa Rodriguez</div>
-                <div className="text-sm text-muted-foreground">
-                  Birthday Party Client
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section> */}
-
       {/* CTA Section */}
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
