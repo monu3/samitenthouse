@@ -104,7 +104,7 @@ export default function AboutPage() {
             </div>
             <div className="space-y-6">
               <h2 className="text-3xl font-bold mb-4">Who We Are</h2>
-            <div className="w-20 h-1 bg-primary mx-auto mb-5"></div>
+              <div className="w-20 h-1 bg-primary mx-auto mb-5"></div>
               <p className="text-lg">
                 Sami Tent House is a premier event planning company dedicated to
                 creating exceptional experiences for our clients. With over a
@@ -337,38 +337,6 @@ export default function AboutPage() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Share Your Experience</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">
-            Ready to Plan Your Next Event?
-          </h2>
-          <p className="max-w-2xl mx-auto mb-8 text-primary-foreground/90">
-            Contact us today to discuss your ideas and let our team of experts
-            help you create an unforgettable experience.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" asChild>
-              <Link to="/booking">Book Now</Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-transparent border-primary-foreground/20 hover:bg-primary-foreground/10"
-              asChild
-            >
-              <Link to="/contact">Contact Us</Link>
-            </Button>
           </div>
         </div>
       </section>

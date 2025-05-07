@@ -268,31 +268,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">
-            Ready to Plan Your Next Event?
-          </h2>
-          <p className="max-w-2xl mx-auto mb-8 text-primary-foreground/90">
-            Contact us today to discuss your ideas and let our team of experts
-            help you create an unforgettable experience.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" asChild>
-              <Link to="/booking">Book Now</Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-transparent border-primary-foreground/20 hover:bg-primary-foreground/10"
-              asChild
-            >
-              <Link to="/contact">Contact Us</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

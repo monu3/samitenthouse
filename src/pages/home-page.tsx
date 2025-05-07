@@ -29,7 +29,7 @@ export default function HomePage() {
 
   const heroSlides = [
     {
-      image: "src/assets/images.png",
+      image: "src/assets/catring.jpg",
       title: "Creating Unforgettable Events",
       subtitle: "From concept to execution, we bring your vision to life",
     },
@@ -39,7 +39,7 @@ export default function HomePage() {
       subtitle: "Making your special day truly magical",
     },
     {
-      image: "src/assets/wedding.png",
+      image: "src/assets/cooking.webp",
       title: "School Events",
       subtitle: "Professional planning for successful business gatherings",
     },

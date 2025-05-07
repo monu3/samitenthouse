@@ -23,19 +23,13 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Calendar } from "../components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, CheckCircle } from "lucide-react";
+import { CheckCircle, Mail, Phone } from "lucide-react";
 import { cn } from "../lib/utils";
-import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 
 export default function BookingPage() {
   const [step, setStep] = useState(1);
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -46,8 +40,11 @@ export default function BookingPage() {
     location: "",
     budget: "",
     additionalInfo: "",
-    packageType: "",
   });
+
+  // Contact information for sending booking details
+  const whatsappNumber = "+15551234567"; // Replace with your actual WhatsApp number
+  const contactEmail = "info@eventmaster.com";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -71,6 +68,12 @@ export default function BookingPage() {
   };
 
   const nextStep = () => {
+    // For step 1, check if date is selected
+    if (step === 1 && !date) {
+      alert("Please select an event date");
+      return;
+    }
+
     setStep((prev) => prev + 1);
     window.scrollTo(0, 0);
   };
@@ -82,9 +85,92 @@ export default function BookingPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
+
+    // Create WhatsApp message content
+    const createWhatsAppMessage = () => {
+      return `
+*New Event Booking Request*
+
+*Event Details:*
+- Event Type: ${formData.eventType}
+- Event Date: ${formData.eventDate}
+- Guest Count: ${formData.guestCount}
+- Location: ${formData.location}
+- Budget Range: ${formData.budget}
+- Additional Info: ${formData.additionalInfo}
+
+*Contact Information:*
+- Name: ${formData.name}
+- Email: ${formData.email}
+- Phone: ${formData.phone}
+    `;
+    };
+
+    // Log form data
     console.log("Form submitted:", formData);
-    nextStep();
+
+    // Move to confirmation step
+    setStep(3);
+
+    // Automatically open WhatsApp with the booking information
+    setTimeout(() => {
+      const message = createWhatsAppMessage();
+      const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        message
+      )}`;
+      window.open(whatsappLink, "_blank");
+    }, 1000);
+  };
+
+  // Function to send booking via email
+  const sendViaEmail = () => {
+    const subject = `New Event Booking Request from ${formData.name}`;
+    const body = `
+New Event Booking Request
+
+Event Details:
+- Event Type: ${formData.eventType}
+- Event Date: ${formData.eventDate}
+- Guest Count: ${formData.guestCount}
+- Location: ${formData.location}
+- Budget Range: ${formData.budget}
+- Additional Information: ${formData.additionalInfo}
+
+Contact Information:
+- Name: ${formData.name}
+- Email: ${formData.email}
+- Phone: ${formData.phone}
+
+Please contact the customer to discuss their event requirements.
+    `;
+    const mailtoLink = `mailto:${contactEmail}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink, "_blank");
+  };
+
+  // Function to send booking via WhatsApp
+  const sendViaWhatsApp = () => {
+    const message = `
+*New Event Booking Request*
+
+*Event Details:*
+- Event Type: ${formData.eventType}
+- Event Date: ${formData.eventDate}
+- Guest Count: ${formData.guestCount}
+- Location: ${formData.location}
+- Budget Range: ${formData.budget}
+- Additional Info: ${formData.additionalInfo}
+
+*Contact Information:*
+- Name: ${formData.name}
+- Email: ${formData.email}
+- Phone: ${formData.phone}
+    `;
+    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappLink, "_blank");
   };
 
   return (
@@ -102,14 +188,10 @@ export default function BookingPage() {
 
         <div className="absolute inset-0 flex items-center justify-center text-center px-4">
           <div className="max-w-3xl">
-            <h1
-              className="text-4xl md:text-5xl font-bold text-white mb-4"
-              style={{ fontFamily: "cursive" }}
-            >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Book Your Event
             </h1>
-            <p className="text-xl text-white/90"
-            style={{ fontFamily: "cursive" }}>
+            <p className="text-xl text-white/90">
               Fill out the form below to start planning your perfect event
             </p>
           </div>
@@ -123,7 +205,7 @@ export default function BookingPage() {
             {/* Progress Indicator */}
             <div className="mb-12">
               <div className="flex justify-between items-center mb-2">
-                {[1, 2, 3, 4].map((stepNumber) => (
+                {[1, 2, 3].map((stepNumber) => (
                   <div
                     key={stepNumber}
                     className={cn(
@@ -146,12 +228,11 @@ export default function BookingPage() {
               <div className="relative h-2 bg-muted rounded-full">
                 <div
                   className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-300"
-                  style={{ width: `${(step - 1) * 33.33}%` }}
+                  style={{ width: `${(step - 1) * 50}%` }}
                 ></div>
               </div>
               <div className="flex justify-between mt-2 text-sm text-muted-foreground">
                 <span>Event Details</span>
-                <span>Package Selection</span>
                 <span>Personal Info</span>
                 <span>Confirmation</span>
               </div>
@@ -168,17 +249,18 @@ export default function BookingPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="eventType">Event Type</Label>
+                    <Label htmlFor="eventType">Event Type *</Label>
                     <Select
                       onValueChange={(value) =>
                         handleSelectChange("eventType", value)
                       }
                       value={formData.eventType}
+                      required
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select event type" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent position="popper">
                         <SelectItem value="wedding">Wedding</SelectItem>
                         <SelectItem value="corporate">
                           Corporate Event
@@ -191,34 +273,25 @@ export default function BookingPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="eventDate">Event Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? format(date, "PPP") : "Select a date"}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={handleDateChange}
-                          initialFocus
-                          disabled={(date) => date < new Date()}
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <Label htmlFor="eventDate">Event Date *</Label>
+                    <div className="p-4 border rounded-md">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={handleDateChange}
+                        className="rounded-md"
+                        disabled={(date) => date < new Date()}
+                      />
+                    </div>
+                    {date && (
+                      <p className="text-sm text-muted-foreground">
+                        Selected date: {format(date, "PPP")}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="guestCount">Estimated Guest Count</Label>
+                    <Label htmlFor="guestCount">Estimated Guest Count *</Label>
                     <Input
                       id="guestCount"
                       name="guestCount"
@@ -226,32 +299,35 @@ export default function BookingPage() {
                       placeholder="Number of guests"
                       value={formData.guestCount}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="location">Event Location</Label>
+                    <Label htmlFor="location">Event Location *</Label>
                     <Input
                       id="location"
                       name="location"
                       placeholder="City, State or Venue (if known)"
                       value={formData.location}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="budget">Budget Range</Label>
+                    <Label htmlFor="budget">Budget Range *</Label>
                     <Select
                       onValueChange={(value) =>
                         handleSelectChange("budget", value)
                       }
                       value={formData.budget}
+                      required
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select budget range" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent position="popper">
                         <SelectItem value="under5k">Under $5,000</SelectItem>
                         <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
                         <SelectItem value="10k-20k">
@@ -279,126 +355,17 @@ export default function BookingPage() {
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-end">
-                  <Button onClick={nextStep}>Next Step</Button>
-                </CardFooter>
-              </Card>
-            )}
-
-            {/* Step 2: Package Selection */}
-            {step === 2 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Select a Package</CardTitle>
-                  <CardDescription>
-                    Choose the package that best fits your needs
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RadioGroup
-                    value={formData.packageType}
-                    onValueChange={(value) =>
-                      handleSelectChange("packageType", value)
-                    }
-                    className="space-y-4"
-                  >
-                    <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer">
-                      <RadioGroupItem
-                        value="essential"
-                        id="essential"
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <Label
-                          htmlFor="essential"
-                          className="text-lg font-medium cursor-pointer"
-                        >
-                          Essential Package
-                        </Label>
-                        <p className="text-muted-foreground">
-                          Basic planning assistance for smaller events
-                        </p>
-                        <p className="font-medium mt-2">Starting at $2,500</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer border-primary bg-primary/5">
-                      <RadioGroupItem
-                        value="premium"
-                        id="premium"
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <div className="flex justify-between">
-                          <Label
-                            htmlFor="premium"
-                            className="text-lg font-medium cursor-pointer"
-                          >
-                            Premium Package
-                          </Label>
-                          <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full">
-                            Most Popular
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground">
-                          Comprehensive planning for medium-sized events
-                        </p>
-                        <p className="font-medium mt-2">Starting at $5,000</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer">
-                      <RadioGroupItem
-                        value="luxury"
-                        id="luxury"
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <Label
-                          htmlFor="luxury"
-                          className="text-lg font-medium cursor-pointer"
-                        >
-                          Luxury Package
-                        </Label>
-                        <p className="text-muted-foreground">
-                          All-inclusive planning for large or complex events
-                        </p>
-                        <p className="font-medium mt-2">Starting at $8,500</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start space-x-3 border p-4 rounded-md hover:bg-muted/50 cursor-pointer">
-                      <RadioGroupItem
-                        value="custom"
-                        id="custom"
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <Label
-                          htmlFor="custom"
-                          className="text-lg font-medium cursor-pointer"
-                        >
-                          Custom Package
-                        </Label>
-                        <p className="text-muted-foreground">
-                          Tailored to your specific needs and requirements
-                        </p>
-                        <p className="font-medium mt-2">Price varies</p>
-                      </div>
-                    </div>
-                  </RadioGroup>
-                </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Button variant="outline" onClick={prevStep}>
-                    Previous
-                  </Button>
+                  <p className="text-sm text-muted-foreground">
+                    * Required fields
+                  </p>
                   <Button onClick={nextStep}>Next Step</Button>
                 </CardFooter>
               </Card>
             )}
 
-            {/* Step 3: Personal Information */}
-            {step === 3 && (
+            {/* Step 2: Personal Information */}
+            {step === 2 && (
               <form onSubmit={handleSubmit}>
                 <Card>
                   <CardHeader>
@@ -407,39 +374,39 @@ export default function BookingPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
+                      <Label htmlFor="name">Full Name *</Label>
                       <Input
                         id="name"
                         name="name"
                         placeholder="Your full name"
-                        required
                         value={formData.name}
                         onChange={handleChange}
+                        required
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email">Email Address *</Label>
                       <Input
                         id="email"
                         name="email"
                         type="email"
                         placeholder="Your email address"
-                        required
                         value={formData.email}
                         onChange={handleChange}
+                        required
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone">Phone Number *</Label>
                       <Input
                         id="phone"
                         name="phone"
                         placeholder="Your phone number"
-                        required
                         value={formData.phone}
                         onChange={handleChange}
+                        required
                       />
                     </div>
 
@@ -467,8 +434,8 @@ export default function BookingPage() {
               </form>
             )}
 
-            {/* Step 4: Confirmation */}
-            {step === 4 && (
+            {/* Step 3: Confirmation */}
+            {step === 3 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">
@@ -498,21 +465,50 @@ export default function BookingPage() {
                         {formData.eventDate}
                       </li>
                       <li>
-                        <span className="font-medium">Package:</span>{" "}
-                        {formData.packageType}
-                      </li>
-                      <li>
                         <span className="font-medium">Guests:</span>{" "}
                         {formData.guestCount}
                       </li>
+                      <li>
+                        <span className="font-medium">Location:</span>{" "}
+                        {formData.location}
+                      </li>
+                      <li>
+                        <span className="font-medium">Budget Range:</span>{" "}
+                        {formData.budget}
+                      </li>
                     </ul>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    A confirmation email has been sent to {formData.email}
+
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    Your booking details have been sent to our team via
+                    WhatsApp. If the WhatsApp message didn't open automatically,
+                    please contact us directly at {formData.phone}.
                   </p>
+
+                  <div className="space-y-4 mt-6">
+                    <p className="text-sm font-medium">
+                      Send your booking details via:
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                      <Button
+                        onClick={sendViaEmail}
+                        className="flex items-center gap-2"
+                      >
+                        <Mail className="h-4 w-4" />
+                        Send via Email
+                      </Button>
+                      <Button
+                        onClick={sendViaWhatsApp}
+                        className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+                      >
+                        <Phone className="h-4 w-4" />
+                        Send via WhatsApp
+                      </Button>
+                    </div>
+                  </div>
                 </CardContent>
-                <CardFooter className="justify-center">
-                  <Button asChild>
+                <CardFooter className="justify-center mt-4">
+                  <Button variant="outline" asChild>
                     <a href="/">Return to Home</a>
                   </Button>
                 </CardFooter>
