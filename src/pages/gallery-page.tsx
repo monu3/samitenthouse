@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Tabs,
   TabsContent,
@@ -11,7 +11,11 @@ import { Dialog, DialogContent, DialogTrigger } from "../components/ui/dialog";
 import { X } from "lucide-react";
 import { Button } from "../components/ui/button";
 
+const BACKEND_URL = "http://localhost:5000";
+
 export default function GalleryPage() {
+  const [images, setImages] = useState<any[]>([]);
+  const [category, setCategory] = useState("all");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const categories = [
@@ -22,80 +26,55 @@ export default function GalleryPage() {
     { id: "school", name: "School Events" },
   ];
 
-  const galleryImages = [
-    {
-      id: 1,
-      src: "src/assets/wedding.png?height=600&width=800",
-      alt: "Wedding reception",
-      category: "weddings",
-    },
-    {
-      id: 2,
-      src: "src/assets/heroimage.png",
-      alt: "Decoration",
-      category: "decoration",
-    },
-    {
-      id: 3,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Pasni celebration",
-      category: "pasni",
-    },
-    {
-      id: 4,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Wedding ceremony",
-      category: "weddings",
-    },
-    {
-      id: 5,
-      src: "src/assets/aboutus.jpeg",
-      alt: "Corporate team building",
-      category: "decoration",
-    },
-    {
-      id: 6,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Gala dinner",
-      category: "school",
-    },
-    {
-      id: 7,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Wedding decor",
-      category: "weddings",
-    },
-    {
-      id: 8,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Product launch",
-      category: "decoration",
-    },
-    {
-      id: 9,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Children's Pasni",
-      category: "pasni",
-    },
-    {
-      id: 10,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Charity event",
-      category: "school",
-    },
-    {
-      id: 11,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Wedding reception",
-      category: "weddings",
-    },
-    {
-      id: 12,
-      src: "/placeholder.svg?height=600&width=800",
-      alt: "Corporate awards",
-      category: "decoration",
-    },
-  ];
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (category === "all") {
+        const allFolders = ["weddings", "decoration", "pasni", "school"];
+        const allImages = await Promise.all(
+          allFolders.map(async (folder) => {
+            try {
+              const res = await fetch(
+                `${BACKEND_URL}/api/gallery?folder=${folder}`
+              );
+              if (!res.ok) {
+                const text = await res.text();
+                console.error(
+                  `Error fetching folder ${folder}:`,
+                  res.status,
+                  text
+                );
+                return [];
+              }
+              return await res.json();
+            } catch (err) {
+              console.error(`Failed to fetch folder ${folder}:`, err);
+              return [];
+            }
+          })
+        );
+        setImages(allImages.flat());
+      } else {
+        try {
+          const res = await fetch(
+            `${BACKEND_URL}/api/gallery?folder=${category}`
+          );
+          if (!res.ok) {
+            const text = await res.text();
+            console.error(`Error fetching ${category}:`, res.status, text);
+            setImages([]);
+            return;
+          }
+          const data = await res.json();
+          setImages(data);
+        } catch (err) {
+          console.error(`Fetch error:`, err);
+          setImages([]);
+        }
+      }
+    };
+
+    fetchImages();
+  }, [category]);
 
   return (
     <div>
@@ -140,7 +119,12 @@ export default function GalleryPage() {
             </p>
           </div>
 
-          <Tabs defaultValue="all" className="w-full">
+          <Tabs
+            defaultValue="all"
+            value={category}
+            onValueChange={setCategory}
+            className="w-full"
+          >
             <div className="flex justify-center mb-8">
               <TabsList>
                 {categories.map((category) => (
@@ -151,61 +135,50 @@ export default function GalleryPage() {
               </TabsList>
             </div>
 
-            {categories.map((category) => (
-              <TabsContent
-                key={category.id}
-                value={category.id}
-                className="mt-0"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {galleryImages
-                    .filter(
-                      (image) =>
-                        category.id === "all" || image.category === category.id
-                    )
-                    .map((image) => (
-                      <Dialog key={image.id}>
-                        <DialogTrigger asChild>
-                          <div
-                            className="relative group cursor-pointer overflow-hidden rounded-lg"
-                            onClick={() => setSelectedImage(image.src)}
-                          >
-                            <img
-                              src={image.src || "/placeholder.svg"}
-                              alt={image.alt}
-                              className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center p-4">
-                                <p className="font-medium">{image.alt}</p>
-                                <p className="text-sm">Click to enlarge</p>
-                              </div>
-                            </div>
+            <TabsContent value={category} className="mt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {images.map((image, index) => (
+                  <Dialog key={index}>
+                    <DialogTrigger asChild>
+                      <div
+                        className="relative group cursor-pointer overflow-hidden rounded-lg"
+                        onClick={() => setSelectedImage(image.src)}
+                      >
+                        <img
+                          src={image.src || "/placeholder.svg"}
+                          alt={image.alt}
+                          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center p-4">
+                            <p className="font-medium">{image.alt}</p>
+                            <p className="text-sm">Click to enlarge</p>
                           </div>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-4xl p-0 overflow-hidden bg-transparent border-none">
-                          <div className="relative">
-                            <img
-                              src={image.src || "/placeholder.svg"}
-                              alt={image.alt}
-                              className="w-full h-auto max-h-[80vh] object-contain"
-                            />
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="absolute top-2 right-2 bg-black/50 text-white hover:bg-black/70"
-                              onClick={() => setSelectedImage(null)}
-                            >
-                              <X className="h-5 w-5" />
-                              <span className="sr-only">Close</span>
-                            </Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    ))}
-                </div>
-              </TabsContent>
-            ))}
+                        </div>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl p-0 overflow-hidden bg-transparent border-none">
+                      <div className="relative">
+                        <img
+                          src={image.src || "/placeholder.svg"}
+                          alt={image.alt}
+                          className="w-full h-auto max-h-[80vh] object-contain"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 bg-black/50 text-white hover:bg-black/70"
+                          onClick={() => setSelectedImage(null)}
+                        >
+                          <X className="h-5 w-5" />
+                          <span className="sr-only">Close</span>
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                ))}
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
       </section>
