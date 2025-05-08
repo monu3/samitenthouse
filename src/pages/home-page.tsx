@@ -1,31 +1,18 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Calendar,
-  Users,
-  Award,
-  Gift,
-  MapPin,
-  Phone,
-  Mail,
-} from "lucide-react";
-import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-import { cn } from "../lib/utils";
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "../components/ui/button"
+import { cn } from "../lib/utils"
+import { useGallery } from "../context/gallery-context"
 
 export default function HomePage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const { images, loading } = useGallery()
+  const [galleryImages, setGalleryImages] = useState<any[]>([])
+  const [currentGallerySet, setCurrentGallerySet] = useState(0)
+  const imagesPerSet = 4
 
   const heroSlides = [
     {
@@ -43,55 +30,87 @@ export default function HomePage() {
       title: "School Events",
       subtitle: "Professional planning for successful business gatherings",
     },
-  ];
+  ]
 
   const services = [
     {
-      icon: <Calendar className="h-10 w-10 text-primary" />,
+      image: "src/assets/download.png?height=600&width=800",
       title: "Wedding Planning",
-      description:
-        "Comprehensive wedding planning services to make your special day perfect.",
+      description: "Comprehensive wedding planning services to make your special day perfect.",
       link: "/services#wedding",
     },
     {
-      icon: <Users className="h-10 w-10 text-primary" />,
+      image: "src/assets/download.png?height=600&width=800",
       title: "Corporate Events",
-      description:
-        "Professional corporate event management for conferences and team building.",
+      description: "Professional corporate event management for conferences and team building.",
       link: "/services#corporate",
     },
     {
-      icon: <Gift className="h-10 w-10 text-primary" />,
+      image: "src/assets/download.png?height=600&width=800",
       title: "Pasni",
-      description:
-        "Creative birthday party planning for all ages with custom themes.",
+      description: "Creative birthday party planning for all ages with custom themes.",
       link: "/services#birthday",
     },
     {
-      icon: <Award className="h-10 w-10 text-primary" />,
+      image: "src/assets/download.png?height=600&width=800",
       title: "School Events",
-      description:
-        "Elegant award ceremonies that recognize achievements with style.",
+      description: "Elegant award ceremonies that recognize achievements with style.",
       link: "/services#awards",
     },
-  ];
+  ]
 
+  // Get all gallery images
+  useEffect(() => {
+    if (!loading && images.all) {
+      setGalleryImages(images.all)
+    }
+  }, [loading, images])
+
+  // Set up gallery rotation
+  useEffect(() => {
+    if (galleryImages.length <= imagesPerSet) return
+
+    const totalSets = Math.ceil(galleryImages.length / imagesPerSet)
+
+    const interval = setInterval(() => {
+      setCurrentGallerySet((prev) => (prev + 1) % totalSets)
+    }, 5000) // Change every 5 seconds
+
+    return () => clearInterval(interval)
+  }, [galleryImages.length])
+
+  // Get current set of images to display
+  const getCurrentGalleryImages = () => {
+    const startIdx = currentGallerySet * imagesPerSet
+    return galleryImages.slice(startIdx, startIdx + imagesPerSet)
+  }
+
+  // Hero slider interval
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) =>
-        prev === heroSlides.length - 1 ? 0 : prev + 1
-      );
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [heroSlides.length]);
+      setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [heroSlides.length])
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-  };
+    setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))
+  }
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
-  };
+    setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))
+  }
+
+  // Gallery navigation
+  const nextGallerySet = () => {
+    const totalSets = Math.ceil(galleryImages.length / imagesPerSet)
+    setCurrentGallerySet((prev) => (prev + 1) % totalSets)
+  }
+
+  const prevGallerySet = () => {
+    const totalSets = Math.ceil(galleryImages.length / imagesPerSet)
+    setCurrentGallerySet((prev) => (prev === 0 ? totalSets - 1 : prev - 1))
+  }
 
   return (
     <div className="flex flex-col">
@@ -103,14 +122,10 @@ export default function HomePage() {
               key={index}
               className={cn(
                 "absolute inset-0 transition-opacity duration-1000",
-                index === currentSlide ? "opacity-100" : "opacity-0"
+                index === currentSlide ? "opacity-100" : "opacity-0",
               )}
             >
-              <img
-                src={slide.image || "/placeholder.svg"}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={slide.image || "/placeholder.svg"} alt={slide.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40" />
             </div>
           ))}
@@ -169,7 +184,7 @@ export default function HomePage() {
               key={index}
               className={cn(
                 "w-3 h-3 rounded-full transition-colors",
-                index === currentSlide ? "bg-white" : "bg-white/50"
+                index === currentSlide ? "bg-white" : "bg-white/50",
               )}
               onClick={() => setCurrentSlide(index)}
             >
@@ -186,33 +201,24 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold mb-4">About Us</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Sami Tent House is a premier event planning company with over 10+
-              years of experience creating memorable events. We specialize in
-              weddings, corporate events,school events, and special
-              celebrations.
+              Sami Tent House is a premier event planning company with over 10+ years of experience creating memorable
+              events. We specialize in weddings, corporate events,school events, and special celebrations.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <img
-                src="src/assets/eventlogo.png"
-                alt="About EventMaster"
-                className="rounded-lg shadow-lg"
-              />
+              <img src="src/assets/catring.jpg" alt="About EventMaster" className="rounded-lg shadow-lg" />
             </div>
             <div className="space-y-6">
               <h3 className="text-2xl font-bold">Your Vision, Our Expertise</h3>
               <p>
-                At EventMaster, we believe that every event should be as unique
-                as the individuals hosting it. Our team of experienced event
-                planners works closely with you to understand your vision and
-                bring it to life.
+                At EventMaster, we believe that every event should be as unique as the individuals hosting it. Our team
+                of experienced event planners works closely with you to understand your vision and bring it to life.
               </p>
               <p>
-                From intimate gatherings to grand celebrations, we handle every
-                detail with precision and care, ensuring that your event exceeds
-                expectations and creates lasting memories.
+                From intimate gatherings to grand celebrations, we handle every detail with precision and care, ensuring
+                that your event exceeds expectations and creates lasting memories.
               </p>
               <Button asChild>
                 <Link to="/about">Learn More About Us</Link>
@@ -225,38 +231,30 @@ export default function HomePage() {
       {/* Services Section */}
       <section className="py-20 bg-muted">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-5">
             <h2 className="text-3xl font-bold mb-4">Our Services</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="max-w-2xl mx-auto text-muted-foreground">
-              We offer a comprehensive range of event planning services tailored
-              to meet your specific needs and preferences.
+            <p className="max-w-2xl mx-auto text-muted-foreground mb-6">
+              We offer a comprehensive range of event planning services tailored to meet your specific needs and
+              preferences.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
-              <Card
-                key={index}
-                className="group hover:shadow-lg transition-all duration-300"
-              >
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    {service.icon}
-                  </div>
-                  <CardTitle>{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center">
-                    {service.description}
-                  </CardDescription>
-                </CardContent>
-                <CardFooter className="justify-center">
-                  <Button variant="ghost" asChild>
-                    <Link to={service.link}>Learn More</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
+              <div key={index} className="group relative h-[300px] overflow-hidden rounded-lg shadow-md">
+                {/* Background Image */}
+                <div
+                  className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${service.image})` }}
+                ></div>
+
+                {/* Content - Bottom positioned with slide-up effect */}
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                  <p className="text-white/90 mb-4">{service.description}</p>
+                </div>
+              </div>
             ))}
           </div>
 
@@ -275,32 +273,108 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold mb-4">Event Gallery</h2>
             <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Browse through our portfolio of successful events and get inspired
-              for your next celebration.
+              Browse through our portfolio of successful events and get inspired for your next celebration.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <img
-              src="src/assets/useme.jpeg"
-              alt="Gallery image 1"
-              className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
-            />
-            <img
-              src="src/assets/useme.jpeg?height=300&width=300"
-              alt="Gallery image 2"
-              className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
-            />
-            <img
-              src="src/assets/useme.jpeg?height=300&width=300"
-              alt="Gallery image 3"
-              className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
-            />
-            <img
-              src="src/assets/useme.jpeg?height=300&width=300"
-              alt="Gallery image 4"
-              className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
-            />
+          {/* Gallery Carousel */}
+          <div className="relative">
+            {loading ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[1, 2, 3, 4].map((_, index) => (
+                  <div
+                    key={index}
+                    className="rounded-lg bg-muted animate-pulse h-40 md:h-64 w-full"
+                    aria-hidden="true"
+                  ></div>
+                ))}
+              </div>
+            ) : galleryImages.length > 0 ? (
+              <div className="relative">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 transition-opacity duration-500">
+                  {getCurrentGalleryImages().map((image, index) => (
+                    <Link to="/gallery" key={index}>
+                      <div className="relative group overflow-hidden rounded-lg cursor-pointer">
+                        <img
+                          src={image.src || "/placeholder.svg"}
+                          alt={image.alt}
+                          className="rounded-lg hover:scale-105 transition-transform duration-300 h-40 md:h-64 w-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center p-4">
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Navigation buttons */}
+                {galleryImages.length > imagesPerSet && (
+                  <>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute -left-4 top-1/2 -translate-y-1/2 text-foreground bg-background/80 hover:bg-background shadow-md rounded-full"
+                      onClick={prevGallerySet}
+                    >
+                      <ChevronLeft className="h-6 w-6" />
+                      <span className="sr-only">Previous images</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute -right-4 top-1/2 -translate-y-1/2 text-foreground bg-background/80 hover:bg-background shadow-md rounded-full"
+                      onClick={nextGallerySet}
+                    >
+                      <ChevronRight className="h-6 w-6" />
+                      <span className="sr-only">Next images</span>
+                    </Button>
+                  </>
+                )}
+
+                {/* Indicator dots */}
+                {galleryImages.length > imagesPerSet && (
+                  <div className="flex justify-center mt-4 space-x-2">
+                    {Array.from({ length: Math.ceil(galleryImages.length / imagesPerSet) }).map((_, index) => (
+                      <button
+                        key={index}
+                        className={cn(
+                          "w-2 h-2 rounded-full transition-colors",
+                          index === currentGallerySet ? "bg-primary" : "bg-muted-foreground/30",
+                        )}
+                        onClick={() => setCurrentGallerySet(index)}
+                      >
+                        <span className="sr-only">Go to image set {index + 1}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <img
+                  src="src/assets/useme.jpeg"
+                  alt="Gallery image 1"
+                  className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
+                />
+                <img
+                  src="src/assets/useme.jpeg?height=300&width=300"
+                  alt="Gallery image 2"
+                  className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
+                />
+                <img
+                  src="src/assets/useme.jpeg?height=300&width=300"
+                  alt="Gallery image 3"
+                  className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
+                />
+                <img
+                  src="src/assets/useme.jpeg?height=300&width=300"
+                  alt="Gallery image 4"
+                  className="rounded-lg hover:opacity-80 transition-opacity cursor-pointer h-40 md:h-64 w-full object-cover"
+                />
+              </div>
+            )}
           </div>
 
           <div className="text-center mt-12">
@@ -316,15 +390,11 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold">
-                Your event Grand & Memorable
-              </h2>
-              <p className="text-xl">
-                Celebrate your event with us, we will make it memorable
-              </p>
+              <h2 className="text-4xl md:text-5xl font-bold">Your event Grand & Memorable</h2>
+              <p className="text-xl">Celebrate your event with us, we will make it memorable</p>
               <p className="">
-                Join the most loved event planner application ever, never worry
-                about decorations, it's all our responsibility
+                Join the most loved event planner application ever, never worry about decorations, it's all our
+                responsibility
               </p>
               <div className="pt-4">
                 <Button size="lg" asChild>
@@ -351,5 +421,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  );
+  )
 }

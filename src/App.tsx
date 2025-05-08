@@ -10,24 +10,27 @@ import BookingPage from "./pages/booking-page";
 import ContactPage from "./pages/contact-page";
 import OutletsPage from "./pages/outlets-page";
 import "./App.css";
+import { GalleryProvider } from "./context/gallery-context";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="light">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="about" element={<AboutPage />} />
-            <Route path="gallery" element={<GalleryPage />} />
-            <Route path="services" element={<ServicesPage />} />
-            {/* <Route path="packages" element={<PackagesPage />} /> */}
-            <Route path="booking" element={<BookingPage />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="outlets" element={<OutletsPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <GalleryProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="about" element={<AboutPage />} />
+              <Route path="gallery" element={<GalleryPage />} />
+              <Route path="services" element={<ServicesPage />} />
+              {/* <Route path="packages" element={<PackagesPage />} /> */}
+              <Route path="booking" element={<BookingPage />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="outlets" element={<OutletsPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </GalleryProvider>
     </ThemeProvider>
   );
 }

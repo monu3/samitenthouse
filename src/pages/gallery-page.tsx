@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Tabs,
   TabsContent,
@@ -8,13 +8,12 @@ import {
   TabsTrigger,
 } from "../components/ui/tabs";
 import { Dialog, DialogContent, DialogTrigger } from "../components/ui/dialog";
-import { X } from "lucide-react";
+import { X, Download } from "lucide-react";
 import { Button } from "../components/ui/button";
-
-const BACKEND_URL = "http://localhost:5000";
+import { useGallery } from "../context/gallery-context";
 
 export default function GalleryPage() {
-  const [images, setImages] = useState<any[]>([]);
+  const { images, loading, error, refreshImages } = useGallery();
   const [category, setCategory] = useState("all");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -25,64 +24,52 @@ export default function GalleryPage() {
     { id: "pasni", name: "Pasni" },
     { id: "school", name: "School Events" },
   ];
+  const currentImages = images[category] || [];
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      if (category === "all") {
-        const allFolders = ["weddings", "decoration", "pasni", "school"];
-        const allImages = await Promise.all(
-          allFolders.map(async (folder) => {
-            try {
-              const res = await fetch(
-                `${BACKEND_URL}/api/gallery?folder=${folder}`
-              );
-              if (!res.ok) {
-                const text = await res.text();
-                console.error(
-                  `Error fetching folder ${folder}:`,
-                  res.status,
-                  text
-                );
-                return [];
-              }
-              return await res.json();
-            } catch (err) {
-              console.error(`Failed to fetch folder ${folder}:`, err);
-              return [];
-            }
-          })
-        );
-        setImages(allImages.flat());
-      } else {
-        try {
-          const res = await fetch(
-            `${BACKEND_URL}/api/gallery?folder=${category}`
-          );
-          if (!res.ok) {
-            const text = await res.text();
-            console.error(`Error fetching ${category}:`, res.status, text);
-            setImages([]);
-            return;
-          }
-          const data = await res.json();
-          setImages(data);
-        } catch (err) {
-          console.error(`Fetch error:`, err);
-          setImages([]);
-        }
+  const handleDownload = async (imageUrl: string, imageName: string) => {
+    try {
+      // Show loading state or indicator here if needed
+
+      // Fetch the image as a blob
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error("Failed to download image");
       }
-    };
 
-    fetchImages();
-  }, [category]);
+      // Convert the response to a blob
+      const blob = await response.blob();
+
+      // Create a blob URL
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a temporary anchor element
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = imageName || "image.jpg";
+
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl); // Free up memory
+      }, 100);
+    } catch (error) {
+      console.error("Download failed:", error);
+      // Show error message to user if needed
+      alert("Failed to download image. Please try again.");
+    }
+  };
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[400px]">
+      <section className="relative h-[40vh] min-h-[300px]">
         <div className="absolute inset-0">
           <img
-            src="src/assets/heroimage.png"
+            src="src/assets/heroimage.png?height=600&width=1200"
             alt="Gallery"
             className="w-full h-full object-cover"
           />
@@ -127,57 +114,106 @@ export default function GalleryPage() {
           >
             <div className="flex justify-center mb-8">
               <TabsList>
-                {categories.map((category) => (
-                  <TabsTrigger key={category.id} value={category.id}>
-                    {category.name}
+                {categories.map((cat) => (
+                  <TabsTrigger key={cat.id} value={cat.id}>
+                    {cat.name}
                   </TabsTrigger>
                 ))}
               </TabsList>
             </div>
 
             <TabsContent value={category} className="mt-0">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {images.map((image, index) => (
-                  <Dialog key={index}>
-                    <DialogTrigger asChild>
-                      <div
-                        className="relative group cursor-pointer overflow-hidden rounded-lg"
-                        onClick={() => setSelectedImage(image.src)}
-                      >
-                        <img
-                          src={image.src || "/placeholder.svg"}
-                          alt={image.alt}
-                          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center p-4">
-                            <p className="font-medium">{image.alt}</p>
-                            <p className="text-sm">Click to enlarge</p>
+              {loading ? (
+                <div className="text-center py-12">
+                  <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                  <p className="mt-4 text-muted-foreground">
+                    Loading images...
+                  </p>
+                </div>
+              ) : error ? (
+                <div className="text-center py-12">
+                  <p className="text-red-500">{error}</p>
+                  <Button onClick={refreshImages} className="mt-4">
+                    Retry
+                  </Button>
+                </div>
+              ) : currentImages.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">
+                    No images found for this category.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {currentImages.map((image, index) => (
+                    <Dialog key={index}>
+                      <DialogTrigger asChild>
+                        <div
+                          className="relative group cursor-pointer overflow-hidden rounded-lg"
+                          onClick={() => setSelectedImage(image.src)}
+                        >
+                          <img
+                            src={image.src || "/placeholder.svg"}
+                            alt={image.alt}
+                            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center">
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center p-4">
+                              {/* <p className="font-medium">{image.alt}</p>
+                              <p className="text-sm">Click to enlarge</p> */}
+                            </div>
+                          </div>
+
+                          {/* Download button */}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="absolute bottom-2 right-2 bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent dialog from opening
+                              handleDownload(image.src, image.alt);
+                            }}
+                          >
+                            <Download className="h-5 w-5" />
+                            <span className="sr-only">Download</span>
+                          </Button>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-4xl p-0 overflow-hidden bg-transparent border-none">
+                        <div className="relative">
+                          <img
+                            src={image.src || "/placeholder.svg"}
+                            alt={image.alt}
+                            className="w-full h-auto max-h-[80vh] object-contain"
+                          />
+                          <div className="absolute top-2 right-2 flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="bg-black/50 text-white hover:bg-black/70"
+                              onClick={() =>
+                                handleDownload(image.src, image.alt)
+                              }
+                            >
+                              <Download className="h-5 w-5" />
+                              <span className="sr-only">Download</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="bg-black/50 text-white hover:bg-black/70"
+                              onClick={() => setSelectedImage(null)}
+                            >
+                              <X className="h-5 w-5" />
+                              <span className="sr-only">Close</span>
+                            </Button>
                           </div>
                         </div>
-                      </div>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl p-0 overflow-hidden bg-transparent border-none">
-                      <div className="relative">
-                        <img
-                          src={image.src || "/placeholder.svg"}
-                          alt={image.alt}
-                          className="w-full h-auto max-h-[80vh] object-contain"
-                        />
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="absolute top-2 right-2 bg-black/50 text-white hover:bg-black/70"
-                          onClick={() => setSelectedImage(null)}
-                        >
-                          <X className="h-5 w-5" />
-                          <span className="sr-only">Close</span>
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                ))}
-              </div>
+                      </DialogContent>
+                    </Dialog>
+                  ))}
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

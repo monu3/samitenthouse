@@ -1,24 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-// import {
-//   Calendar,
-//   Users,
-//   Gift,
-//   Award,
-//   Music,
-//   Camera,
-//   Utensils,
-//   Palette,
-// } from "lucide-react";
-
+import { Card } from "../components/ui/card";
 export default function ServicesPage() {
   const services = [
     {
@@ -195,73 +177,37 @@ export default function ServicesPage() {
                 id={service.id}
                 className="group relative h-[500px] overflow-hidden border-0 rounded-lg shadow-md"
               >
-                {/* <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    {service.icon}
-                  </div>
-                  <CardTitle>{service.title}</CardTitle>
-                  <CardDescription className="mt-2">
-                    {service.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {service.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-primary mr-2">•</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardFooter className="justify-center">
-                  <Button asChild>
-                    <Link to="/booking">Book This Service</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
                 {/* Background Image */}
                 <div
                   className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                   style={{ backgroundImage: `url(${service.image})` }}
                 ></div>
+                {/* Light Overlay - Reduced opacity */}
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/50 transition-colors duration-300"></div>
 
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/70 transition-colors duration-300"></div>
-
-                {/* Content */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-between text-white">
-                  {/* Title - Always visible */}
-                  <h3 className="text-2xl font-bold z-10">{service.title}</h3>
-
-                  {/* Description - Hidden by default, visible on hover */}
-                  <div className="transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    <ul className="space-y-1 mb-4">
-                      {service.features.slice(0, 4).map((feature, index) => (
-                        <li
-                          key={index}
-                          className="text-sm text-white/90 flex items-center"
-                        >
-                          <span className="mr-2 text-white">•</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    <Button
-                      size="sm"
-                      className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
-                      asChild
-                    >
-                      <Link to={`/booking?service=${service.id}`}>
-                        Book This Service
-                      </Link>
-                    </Button>
-                  </div>
+                {/* Content - Bottom positioned with slide-up effect */}
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                  <ul className="space-y-1 mb-4">
+                    {service.features.slice(0, 4).map((feature, index) => (
+                      <li
+                        key={index}
+                        className="text-sm text-white/90 flex items-center"
+                      >
+                        <span className="mr-2 text-white">•</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    size="sm"
+                    className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
+                    asChild
+                  >
+                    <Link to={`/booking?service=${service.id}`}>
+                      Book This Service
+                    </Link>
+                  </Button>
                 </div>
               </Card>
             ))}
