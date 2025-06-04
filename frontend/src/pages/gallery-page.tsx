@@ -15,7 +15,7 @@ import { useGallery } from "../context/gallery-context";
 export default function GalleryPage() {
   const { images, loading, error, refreshImages } = useGallery();
   const [category, setCategory] = useState("all");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [, setSelectedImage] = useState<string | null>(null);
 
   const categories = [
     { id: "all", name: "All Events" },
