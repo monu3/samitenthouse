@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: trainwithshubham/wanderlust-frontend-beta:v2.2
+          image: monusiddiki/samitenthouse-frontend:v2
           ports:
             - containerPort: 80
 ---
@@ -35,4 +35,4 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
-      nodePort: 7777
+      nodePort: 31222 # This is the port exposed on your localhost

@@ -1,6 +1,6 @@
 @Library('Shared') _
 pipeline {
-    agent {label 'Master'}
+    agent {label 'master'}
     
     
     parameters {
@@ -76,8 +76,12 @@ pipeline {
         stage("Docker: Push to DockerHub"){
             steps{
                 script{
-                    docker_push("samitenthouse-backend","${params.BACKEND_DOCKER_TAG}","monusiddiki") 
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+      sh "export PATH=$PATH:/usr/local/bin "
+      sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+  }
                     docker_push("samitenthouse-frontend","${params.FRONTEND_DOCKER_TAG}","monusiddiki")
+                    docker_push("samitenthouse-backend","${params.BACKEND_DOCKER_TAG}","monusiddiki") 
                 }
             }
         }
