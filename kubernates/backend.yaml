@@ -19,6 +19,9 @@ spec:
       containers:
         - name: backend
           image: monusiddiki/samitenthouse-backend:v2
+          envFrom:
+            - secretRef:
+                name: backend-env
           ports:
             - containerPort: 5000
 ---
