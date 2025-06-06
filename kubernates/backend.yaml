@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: monusiddiki/samitenthouse-backend:v2
+          image: monusiddiki/samitenthouse-backend:v3
           ports:
             - containerPort: 5000
 ---
