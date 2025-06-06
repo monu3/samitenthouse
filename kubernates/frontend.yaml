@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: monusiddiki/samitenthouse-frontend:v2
+          image: monusiddiki/samitenthouse-frontend:v3
           ports:
             - containerPort: 80
 ---
