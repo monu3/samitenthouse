@@ -69,7 +69,7 @@ export default function GalleryPage() {
       <section className="relative h-[40vh] min-h-[300px]">
         <div className="absolute inset-0">
           <img
-            src="src/assets/heroimage.png?height=600&width=1200"
+            src="/heroimage.png?height=600&width=1200"
             alt="Gallery"
             className="w-full h-full object-cover"
           />
